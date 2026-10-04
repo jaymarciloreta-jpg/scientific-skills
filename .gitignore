@@ -1,0 +1,4 @@
+# Downloaded upstream checkouts are local reference material, not nested repositories to publish.
+sources/
+.DS_Store
+__pycache__/
