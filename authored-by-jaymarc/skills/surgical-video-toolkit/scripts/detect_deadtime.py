@@ -46,7 +46,7 @@ from fractions import Fraction
 
 import numpy as np
 
-from common import sec_to_tc, sec_to_clock
+from common import sec_to_tc, sec_to_clock, write_keeps, read_manifest
 
 # Sampling frame size. Small = fast; 64x64 keeps corner/motion signal intact.
 GRID = 64
@@ -84,7 +84,8 @@ def sample_frames(path):
         yield i, np.frombuffer(buf, dtype=np.uint8).reshape(GRID, GRID).astype(np.float32)
         i += 1
     p.stdout.close()
-    p.wait()
+    if p.wait() != 0:
+        raise RuntimeError(f"ffmpeg failed while decoding {path}")
 
 
 def score_recording(manifest_rows, keep_redout):
@@ -96,7 +97,7 @@ def score_recording(manifest_rows, keep_redout):
         dur = float(r["duration_sec"])
         t0 = float(r["timeline_start_sec"])
         print(f"  scanning {r['file']} ({sec_to_clock(dur)}) ...", file=sys.stderr)
-        local_prev = prev
+        local_prev = None
         count = 0
         for i, fr in sample_frames(path):
             if i >= int(dur) + 1:
@@ -251,14 +252,14 @@ def main():
     ap.add_argument("--manifest", required=True, help="manifest.csv from align_chunks.py")
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--name", default="surgical", help="prefix for output files")
-    ap.add_argument("--profile", choices=list(PROFILES), default="balanced")
+    ap.add_argument("--profile", choices=list(PROFILES), default="conservative")
     ap.add_argument("--keep-redout", action="store_true",
                     help="keep short dark spans (lens against tissue) instead of cutting")
     ap.add_argument("--fps", default=None, help="override fps, e.g. 30000/1001 or 25")
+    ap.add_argument("--auto-cut", action="store_true", help="Explicit legacy heuristic removal; prefer review_cuts.py")
     args = ap.parse_args()
 
-    with open(args.manifest) as f:
-        manifest_rows = list(csv.DictReader(f))
+    manifest_rows = read_manifest(args.manifest)
     if not manifest_rows:
         sys.exit("Empty manifest.")
     fps = Fraction(args.fps) if args.fps else Fraction(manifest_rows[0].get("fps") or "30000/1001")
@@ -266,7 +267,12 @@ def main():
 
     print(f"Scoring {len(manifest_rows)} chunk(s), profile={args.profile} ...", file=sys.stderr)
     per_sec = score_recording(manifest_rows, args.keep_redout)
+    if not per_sec:
+        raise ValueError("No frames decoded")
     reason = classify(per_sec, PROFILES[args.profile], args.keep_redout)
+    if not args.auto_cut:
+        reason = [None] * len(per_sec)
+        print("All footage retained. Use review_cuts.py for visual decisions.", file=sys.stderr)
     keep_rows, removed, tl = build_segments(per_sec, reason, manifest_rows, fps)
 
     base = os.path.join(args.outdir, args.name)
@@ -280,6 +286,10 @@ def main():
     with open(base + "_REMOVED_regions.csv", "w", newline="") as f:
         cols = ["removed_start_sec", "removed_end_sec", "duration_sec", "reason", "approx_source"]
         w = csv.DictWriter(f, fieldnames=cols); w.writeheader(); w.writerows(removed)
+
+    if not args.auto_cut:
+        keep_rows = write_keeps([(r["file"],0,float(r["duration_sec"])) for r in manifest_rows], base + "_KEEP_segments.csv", fps)
+        tl = sum(float(r["duration_sec"]) for r in manifest_rows)
 
     total = len(per_sec)
     removed_sec = sum(r["duration_sec"] for r in removed)

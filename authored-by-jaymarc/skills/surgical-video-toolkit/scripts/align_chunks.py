@@ -14,7 +14,7 @@ several folders. Two traps to avoid:
      short chunk "Ch1_001_V.MP4" and the next "Ch1_001_CH001_V.MP4", which sort the
      wrong way alphabetically. The reliable clock is the embedded recording time.
 
-So this script de-duplicates by filename, orders chunks by embedded creation_time
+So this script de-duplicates by SHA-256 content, orders chunks by embedded creation_time
 (falling back to file mtime, then a natural filename sort), and writes a manifest
 that every later step reads. The result is one continuous timeline in true order.
 
@@ -26,13 +26,15 @@ Usage
 Output: manifest.csv with one row per chunk:
   index, file, path, duration_sec, timeline_start_sec, creation_time, order_basis
 """
+import hashlib
+from pathlib import Path
 import argparse
 import csv
 import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 from common import probe_basics, sec_to_clock
 
@@ -50,27 +52,36 @@ def parse_time(s):
     for fmt in ("%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%dT%H:%M:%SZ",
                 "%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S%z"):
         try:
-            return datetime.strptime(s, fmt)
+            return datetime.strptime(s, fmt).replace(tzinfo=timezone.utc) if s.endswith("Z") else datetime.strptime(s, fmt)
         except ValueError:
             continue
     return None
 
 
 def collect(folders):
-    """Gather video files, de-duplicating identical filenames across folders."""
-    seen = {}
+    """Deduplicate byte-identical content, never merely matching basenames."""
+    seen, content = {}, set()
     for folder in folders:
         if not os.path.isdir(folder):
-            print(f"  ! not a folder, skipping: {folder}", file=sys.stderr)
-            continue
+            raise ValueError(f"Not a folder: {folder}")
         for entry in sorted(os.listdir(folder)):
-            ext = os.path.splitext(entry)[1].lower()
-            if ext not in VIDEO_EXTS:
+            path = Path(folder, entry).resolve()
+            if not path.is_file() or path.suffix.lower() not in VIDEO_EXTS or "_thumb" in entry.lower():
                 continue
-            if "_thumb" in entry.lower():
+            h = hashlib.sha256()
+            with path.open("rb") as f:
+                for block in iter(lambda: f.read(1024*1024), b""):
+                    h.update(block)
+            digest = h.hexdigest()
+            if digest in content:
+                print(f"Duplicate content omitted: {path}", file=sys.stderr)
                 continue
-            if entry not in seen:  # first folder wins; later copies ignored
-                seen[entry] = os.path.join(folder, entry)
+            content.add(digest)
+            # Stable ID with original extension; distinct same-name files remain distinct.
+            key = path.stem + "--" + digest[:16] + path.suffix.lower()
+            if key in seen:
+                raise ValueError("Clip ID collision")
+            seen[key] = str(path)
     return seen
 
 
@@ -80,6 +91,7 @@ def main():
     ap.add_argument("folders", nargs="+", help="one or more source folders")
     ap.add_argument("-o", "--out", default="manifest.csv", help="output manifest CSV")
     ap.add_argument("--json", help="optional JSON copy of the manifest")
+    ap.add_argument("--order", help="Text file of absolute source paths in confirmed order")
     args = ap.parse_args()
 
     files = collect(args.folders)
@@ -93,19 +105,25 @@ def main():
         ctime = parse_time(b["creation_time"])
         rows.append({
             "file": name, "path": path, "duration_sec": round(b["duration"], 3),
+            "original_file": os.path.basename(path), "audio_channels": b["audio_channels"], "variable_rate": b["variable_rate"],
             "width": b["width"], "height": b["height"], "fps": str(b["fps"]),
             "creation_time": b["creation_time"] or "",
             "_ctime": ctime, "_mtime": os.path.getmtime(path),
         })
 
     # Order: embedded creation_time if every chunk has one, else mtime, else name.
-    if all(r["_ctime"] for r in rows):
+    if args.order:
+        order = [str(Path(line.strip()).resolve()) for line in Path(args.order).read_text().splitlines() if line.strip()]
+        if len(order) != len(rows) or set(order) != {r["path"] for r in rows}:
+            raise ValueError("Order must list every deduplicated source exactly once")
+        rows.sort(key=lambda r: order.index(r["path"])); basis = "user_confirmed"
+    elif all(r["_ctime"] for r in rows):
         rows.sort(key=lambda r: r["_ctime"]); basis = "creation_time"
     elif len({round(r["_mtime"]) for r in rows}) == len(rows):
         rows.sort(key=lambda r: r["_mtime"]); basis = "file_mtime"
     else:
         rows.sort(key=lambda r: natural_key(r["file"])); basis = "filename"
-    print(f"Ordered chunks by: {basis}")
+    print(f"Ordered chunks by: {basis}. Review the manifest before editing.")
 
     t = 0.0
     for i, r in enumerate(rows, 1):
@@ -114,8 +132,11 @@ def main():
         r["order_basis"] = basis
         t += r["duration_sec"]
 
+    for output in [args.out,args.json]:
+        if output and Path(output).exists():
+            raise ValueError("Output already exists; choose a new manifest path")
     cols = ["index", "file", "path", "duration_sec", "width", "height", "fps",
-            "timeline_start_sec", "creation_time", "order_basis"]
+            "timeline_start_sec", "creation_time", "order_basis", "original_file", "audio_channels", "variable_rate"]
     with open(args.out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()

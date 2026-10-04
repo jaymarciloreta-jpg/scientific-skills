@@ -7,6 +7,23 @@
     "collected_at": "2026-10-04",
     "path": "authored-by-jaymarc/skills/surgical-video-toolkit",
     "files": {
+      "AUTHORSHIP.md": "d3ff468008bf64feb781929bf2cf593e19dc18417d5867e9688b177a4c7b1c18",
+      "CHANGELOG.md": "49ad218cbc9f60c48bfc07af51620e693744b8acdf3c3a7309e040f7802de65c",
+      "RESIDENT_GUIDE.md": "44aefa6a283176326cb28b73775f77826f2a62fb9515418becf094a63d980bff",
+      "SKILL.md": "45057a8c018a2ede8b69942e280ea86772fe5551324af9633193df3ee1472828",
+      "references/evaluation.md": "b0343f2a3783dc55fd2b41bbb4f1c66fcaf6d60d926558a8723596ae74dd8d97",
+      "references/premiere_handoff.md": "db8f44c139372ed7f47c79dadcd4183f902976e88d54144491b6a6a5a6feaeba",
+      "references/tuning.md": "8519a53c01b9b90bd9c62fce3b96511f55687f550e4a4bb4fde835e265810f08",
+      "scripts/align_chunks.py": "cb5bb542d59a8b08cfc7a83a9624df6d20843c4c9ef81a0d2f5e38cdbfc62ca6",
+      "scripts/build_timeline.py": "a7048adf64152824461ca93f9caeea9334d405e3e1865df7af3badac2d0f8064",
+      "scripts/common.py": "2d41abe40f2d1e0647ff51a7f163a96deb0d6233d078ce00c749d8ad425c7974",
+      "scripts/detect_deadtime.py": "5b0e42ca34a8cf67b4342ad061c4857494ac4fe87776edea8900a1aa954b64f6",
+      "scripts/extract_markers.py": "65dd4e5884ef3cd020222166c8638bef2203b8cf238b7776dd77c60eb2c004f5",
+      "scripts/review_cuts.py": "e7e4b2d0371b1b0b2d8dcf5b1c4a0adfdc246114411a794a6be816ff68edd9b3",
+      "scripts/review_template.html": "d6b74e1a470a451c748161eb85acde147b4f3ba77554f453345872fde84ba334",
+      "tests/test_workflow.py": "c7189f92c0452661101b746cbe45534e929976c75d5cf3791b1bb17fea4c337c"
+    },
+    "original_files": {
       "SKILL.md": "c9a4d4f5d89552bd171bac36cf09070e7ccb869105c7860aa0656020f07f0691",
       "RESIDENT_GUIDE.md": "ab2b099cf1cdf23b33f8733caaa6044c90347e195acc081d072c7a96d688afd3",
       "references/tuning.md": "0e66aefb520547f104909f5d9a2344f3ef743917151b63a4bfc2d8ee25bf6f0a",
@@ -16,7 +33,9 @@
       "scripts/extract_markers.py": "0004a07ed59c10ec4e77d2311d1beaebca97d078d8cc44a416dee635c81988e5",
       "scripts/common.py": "45a08264c15aacc52b2583a1389be914bb68676e81eabe3d7c673e2047861354",
       "scripts/align_chunks.py": "82f758a61b8aa72a27ec5237bc8c6c3d3042d275fa530fc3662a4c2335b4255f"
-    }
+    },
+    "version": "2.0.0",
+    "updated_at": "2026-10-04"
   },
   {
     "name": "slicer-sinus-roi",

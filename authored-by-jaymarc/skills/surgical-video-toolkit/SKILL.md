@@ -1,133 +1,145 @@
 ---
 name: surgical-video-toolkit
 description: >-
-  Edit long surgical / endoscopic recordings (sinus, skull base, ENT, laparoscopic,
-  arthroscopic, any scope or OR camera) into a Premiere-ready edit. Use whenever
-  someone wants to turn raw OR footage into something watchable or teachable: stitch
-  the auto-split chunks into one continuous recording in the right order,
-  automatically cut dead time (scope out of the patient, standby/black screens, long
-  idle stretches), generate a Premiere FCPXML/EDL timeline of just the good footage,
-  or pull short fixed-length highlight/"marker" clips. Triggers on "edit this surgery
-  video", "remove the dead time", "cut where the scope is out", "make a rough cut of
-  the case", "stitch these OR chunks together", "make a Premiere timeline from this
-  endoscopy", "pull highlight clips from the case", or any multi-hour OR/scope
-  recording that needs trimming. Drivable in plain English by attendings and
-  residents. Not for consumer/vlog video, photo editing, audio cleanup, or plain
-  resize/compress. Source files are never modified.
+  Prepare surgeon-reviewed edits of long surgical or endoscopic recordings.
+  Deduplicate and order recording chunks, propose dead-time intervals for visual
+  review, protect important moments, export a reviewed Premiere XML timeline with
+  audio, and extract teaching highlights across edits. Use for OR footage,
+  surgical teaching clips, endoscopy rough cuts, and Premiere handoff. Preserve
+  uncertain footage; no automatic clinical-importance classification.
+metadata:
+  version: "2.0.0"
+  author: Jaymarc Iloreta
 ---
 
-# Surgical Video Toolkit
+# Surgical Video Toolkit · 2.0
 
-Turn raw operating-room footage into an edit. The heavy, mind-numbing part of
-editing a surgical case is not the creative cutting — it is wading through hours of
-the scope sitting on the tray, black standby screens, and slow idle stretches to
-find the surgery. This skill automates that triage and hands a human a clean
-Premiere timeline (or short clips) to finish from.
+Turn long surgical recordings into an auditable, surgeon-reviewed edit. Keep all
+footage by default. Bright corners, darkness, and low motion are **candidate
+signals**, not proof that a moment is unimportant. Source videos are never edited.
 
-It is built to be **non-destructive and transparent**: it only ever reads the
-footage and writes small text/CSV files. Every cut it proposes is listed in a CSV a
-human can audit, and every threshold is a knob you can turn. Think of it as a fast,
-tireless first-assist for the edit — not a black box.
+## Requirements and boundaries
 
-## The four modules (and when to use each)
+Python 3.9+, NumPy, FFmpeg, and ffprobe; a browser for local review; Premiere for
+final import verification. Work locally. No cloud service, credentials, model
+weights, or network access is needed for processing. Preview clips contain actual
+source imagery: store output in the approved case workspace, outside this public
+skill repository. The included tests use synthetic media only.
 
-1. **Align** (`scripts/align_chunks.py`) — discover the chunks and order them.
-   Capture boxes auto-split a long case into many sequential MP4s and sometimes
-   copy the whole recording into several folders. Use this first, always. It
-   de-duplicates identical copies and orders chunks by their embedded recording
-   time (filenames lie about order). Output: `manifest.csv`.
+This release handles one chronological recording with constant frame rate,
+consistent dimensions, and mono/stereo audio. Reject mixed formats, suspected VFR,
+or multichannel audio at export with a clear normalization instruction. This is
+not multi-camera synchronization, clinical event recognition, or validated
+clinical decision software. Heuristic VFR screening is not exhaustive; normalize
+known VFR sources before use.
 
-2. **Detect dead time** (`scripts/detect_deadtime.py`) — score every second and
-   decide keep vs. cut. Use when the goal is "remove the boring/empty parts."
-   Output: `*_KEEP_segments.csv`, `*_REMOVED_regions.csv`, `*_per_second.csv`.
+## Workflow
 
-3. **Build timeline** (`scripts/build_timeline.py`) — turn the KEEP list into a
-   Premiere-importable `.fcpxml` (primary) and `.edl` (backup). Use right after
-   detection. This is the deliverable the editor opens in Premiere.
+Run the following from `scripts/`, using absolute paths to source and output.
+Create a fresh output directory for each review/export revision.
 
-4. **Extract markers** (`scripts/extract_markers.py`) — cut short, flat,
-   shareable highlight clips (default 30 s, H.264+AAC 1080p). Use for teaching
-   clips / conference reels, independent of the rough cut. Markers can be given as
-   "file + time" or as positions on the dead-time-removed timeline.
-
-You do not have to run all four. "Just pull two 30-second clips" → module 4 only
-(with module 1 for paths). "Make a rough cut" → modules 1→2→3.
-
-## Standard workflow (the rough cut)
-
-Run from the `scripts/` directory. `ffmpeg`, `ffprobe`, Python 3, and `numpy` must
-be available.
+### 1. Align and verify the manifest
 
 ```bash
-# 1. Align: point at the folder(s) holding the recording. Multiple folders that are
-#    copies of each other are fine — it keeps one.
-python align_chunks.py "/path/to/CASE_folder" -o OUT/manifest.csv
-
-# 2. Detect dead time. --profile balanced is the sane default.
-python detect_deadtime.py --manifest OUT/manifest.csv --outdir OUT \
-    --name CASE --profile balanced
-
-# 3. Build the Premiere timeline from the kept segments.
-python build_timeline.py --keep OUT/CASE_KEEP_segments.csv --manifest OUT/manifest.csv \
-    --outdir OUT --name CASE_ROUGH_CUT --title "CASE - dead-time removed"
+python3 align_chunks.py /path/to/recording -o /path/to/CASE/manifest.csv
 ```
 
-Then hand off the `.fcpxml` (see `references/premiere_handoff.md`). Always also
-write a short `README_edit.md` next to the outputs summarizing what was kept,
-removed, and why — surgeons want that transparency before they trust the cut. There
-is a template at the end of `references/premiere_handoff.md`.
+Files are SHA-256 hashed; only byte-identical copies are deduplicated. Different
+videos with the same filename remain distinct. `file` is now a stable clip ID;
+`original_file` preserves the original basename. All later inputs use clip IDs.
 
-## Marker / highlight clips
+Inspect the manifest and confirm chronology. Recording timestamps and file
+modification times can be unreliable. For an explicit order, supply `--order
+/path/to/order.txt`, one absolute source path per line, listing every deduplicated
+source once. Copies of one recording are not separate camera angles.
+
+### 2. Protect important moments and prepare review
+
+Optional protected intervals use source seconds and manifest clip IDs:
+
+```json
+[{"file":"clip--0123456789abcdef.mp4","start":30,"end":45}]
+```
 
 ```bash
-# Source-relative: "in this chunk, starting at 12:30"
-python extract_markers.py --outdir OUT/markers --length 30 \
-    --manifest OUT/manifest.csv --at Ch1_004_CH002_V.MP4=12:30
-
-# Timeline-relative: a spot you noted while scrubbing the rough cut
-python extract_markers.py --outdir OUT/markers --length 30 --center \
-    --keep OUT/CASE_KEEP_segments.csv --manifest OUT/manifest.csv \
-    --timeline-at 45:10 --prefix Sinus
+python3 review_cuts.py prepare --manifest /path/to/CASE/manifest.csv \
+  --outdir /path/to/CASE/review --profile conservative \
+  --protect /path/to/CASE/protected.json
 ```
 
-## How detection actually works (so you can defend the cuts)
+Omit `--protect` when there are no protected intervals. Profiles change which
+intervals are proposed; **none authorize automatic removal**. Review outputs:
 
-The recording is sampled once per second into a tiny grayscale frame, then scored:
+- `review.html`: local interactive Keep/Remove controls with adjustable bounds.
+- `previews/`: thumbnails and short silent previews near candidate midpoints.
+- `session.json`: manifest, candidate intervals, protected spans, source metadata,
+  and a session ID binding the decisions to this review.
+- `scores.csv`: per-second heuristic measurements.
+- `KEEP_unreviewed.csv`: all footage retained, not an approved edit.
 
-- **Scope-out** → bright frame **corners**. An endoscope paints a black circular
-  mask with dark corners; when the scope leaves the body the corners light up.
-- **No-signal** → near-black **whole frame** (standby screen, capped scope, blackout).
-- **Idle** → low frame-to-frame **motion** sustained long enough (brief pauses are
-  kept so the result doesn't feel jump-cut).
+Open `review.html` in a browser. If local media loading is restricted, serve just
+that output folder using `python3 -m http.server 8768 --bind 127.0.0.1 --directory
+/path/to/CASE/review` and open `http://127.0.0.1:8768/review.html` locally.
+Do not bind the review server to all network interfaces.
 
-A second is kept only if it is in-body, has signal, and isn't part of a long idle
-run. Kept regions get short handles (0.5 s) so cuts don't slam onto motion, and
-slivers shorter than 1 s are dropped. Spot-check the boundaries against the actual
-footage before trusting a new case — render a couple of marker clips at cut/keep
-edges, or read `*_per_second.csv`. Full threshold reference and tuning advice:
-`references/tuning.md`.
+### 3. Review and apply decisions
 
-## Guardrails worth keeping in mind
+Each proposal defaults to **Keep**. Choose Remove only after checking the content;
+narrow its start/end when needed. Previews cover at most eight seconds and are
+not a substitute for inspecting a long proposed interval in the source player.
+Protected moments stay kept even when an overlapping proposal is removed.
+Browser draft decisions persist locally when localStorage is available; download
+is the durable handoff. Click **Download decisions**, then **Save decisions.json**,
+or copy the displayed JSON if browser downloads are unavailable.
 
-- **Never treat duplicate folders as camera angles.** If folders are byte-identical
-  copies, they are one recording; `align_chunks.py` handles this, but if asked to
-  "sync the three angles," confirm whether they are truly different angles first.
-- **Confirm the profile with the surgeon.** "Balanced" removes obvious dead time
-  with safe handles. For grand-rounds teaching, `conservative` is safer; for a quick
-  social cut, `aggressive`. When in doubt, default to balanced and offer to
-  regenerate — re-running detection is cheap.
-- **Keep it non-destructive.** Outputs are an edit list, not a re-render. Only
-  `extract_markers.py` writes new video, and it writes new files alongside, never
-  over the source.
-- If a surgeon wants a single flat trimmed MP4 instead of a Premiere timeline, that
-  is a reasonable follow-up (concatenate the KEEP segments with ffmpeg) — offer it,
-  but the timeline is the default because it leaves the human in control.
+```bash
+python3 review_cuts.py finalize --session /path/to/CASE/review/session.json \
+  --decisions /path/to/decisions.json --outdir /path/to/CASE/approved
+```
 
-## Reference files
+The finalizer rejects wrong-session, missing, duplicate, out-of-bounds, and invalid
+decisions, and source size/modification changes. It emits `KEEP_reviewed.csv` and
+`review_audit.json`. These checks detect common mistakes, not malicious tampering.
 
-- `RESIDENT_GUIDE.md` — plain-English, step-by-step guide written for residents to
-  drive this whole workflow from Claude + Premiere. This is the wiki-facing doc.
-- `references/premiere_handoff.md` — importing the FCPXML/EDL, relinking media,
-  fine-tuning, exporting, plus a README_edit template.
-- `references/tuning.md` — every threshold, the three profiles, and how to make a
-  cut tighter or looser.
+### 4. Export the reviewed timeline
+
+```bash
+python3 build_timeline.py --manifest /path/to/CASE/manifest.csv \
+  --keep /path/to/CASE/approved/KEEP_reviewed.csv \
+  --outdir /path/to/CASE/export --title "Reviewed surgical teaching edit"
+```
+
+Deliver **`.xml` (Final Cut Pro 7 / xmeml)** for Premiere, with source frame rate,
+dimensions, escaped paths, and linked mono/stereo audio. The `.edl` fallback is
+video-only and is emitted for up to 999 events; relinking may be manual.
+**Do not describe `.fcpxml` as directly importable in Premiere.** See
+[Premiere handoff](references/premiere_handoff.md).
+
+### 5. Extract teaching highlights
+
+```bash
+python3 extract_markers.py --manifest /path/to/CASE/manifest.csv \
+  --keep /path/to/CASE/approved/KEEP_reviewed.csv --timeline-at 1:20 \
+  --length 30 --outdir /path/to/CASE/highlights
+```
+
+Use `--center` for a marker-centered clip, or `--at CLIP_ID=12:30` for a source
+marker. Reviewed-timeline highlights assemble every selected KEEP interval,
+including transitions across files. They never simply seek into the original and
+continue through removed sections. Outputs are H.264 1080p MP4 with stereo AAC
+when selected sources have audio. Silent segments receive silence when needed;
+wholly silent selections remain silent. Clips at the end are shortened to the
+available media. Existing files are not overwritten.
+
+## Validation and iteration
+
+Run `python3 -m unittest discover -s tests -v` from this skill folder.
+Synthetic tests check duplicate handling, protected spans, review decisions,
+XML escaping/audio/timing, and cross-cut highlight content. The software has not
+been validated on surgical cases or through an actual Premiere import in this
+release. Use [the evaluation protocol](references/evaluation.md) for the next
+stage; prioritize important-footage retention over compression ratio.
+
+The legacy `detect_deadtime.py` now retains footage by default. Its explicit
+`--auto-cut` option is for legacy heuristic experiments; do not use it as the
+standard surgeon-reviewed workflow. Prefer the reviewed KEEP CSV throughout.

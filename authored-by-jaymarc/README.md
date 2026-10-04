@@ -15,6 +15,6 @@ This section collects Jaymarc’s own physician/scientist workflows, identified 
 
 [Local Slicer reference skill](adaptations/slicer/SKILL.md) is preserved separately as an adaptation/curated local version. Its underlying material is attributed to [pieper/slicer-skill](https://github.com/pieper/slicer-skill); it is not presented as wholly original authorship. Only the local SKILL.md was available; its referenced setup scripts are not bundled with this adaptation.
 
-Each folder includes `AUTHORSHIP.md`. The [manifest](manifest.json) records original-file hashes. All source files were preserved unchanged. Python files passed syntax parsing; imaging, video, and clinical workflows were not executed or validated during collection. No patient scans, videos, or case outputs are included.
+Each folder includes `AUTHORSHIP.md`. The [manifest](manifest.json) records original-file hashes. Imported files were originally preserved unchanged. The surgical video toolkit has since been upgraded to version 2.0.0 with synthetic workflow tests and browser review checks; see its changelog. Other skills have only passed syntax/integrity checks. No surgical-case evaluation or actual Premiere import validation has been completed. No patient scans, videos, or case outputs are included.
 
 No blanket license is applied to Jaymarc’s original skills. Publishing makes the files visible; reuse permissions remain with the author unless an explicit license is added. Upstream-derived material retains its upstream license.

@@ -1,7 +1,12 @@
 # Authorship and provenance
 
-Author: **Jaymarc Iloreta** ([jaymarciloreta-jpg](https://github.com/jaymarciloreta-jpg)), as identified by the author during collection.
+Author: **Jaymarc Iloreta** ([jaymarciloreta-jpg](https://github.com/jaymarciloreta-jpg)).
 
-Copied from the author’s installed skill on 2026-10-04, preserving the skill, scripts, and references unchanged. The plugin cache location is a distribution location and is not used as an authorship claim.
+Version 1 was collected from the author’s installed skill on 2026-10-04.
+Version 2.0.0 was developed in this repository at the author’s request, with
+AI-assisted implementation. It adds explicit visual cut review, protected spans,
+content-based deduplication, Premiere XML export, and cross-cut highlights.
+See CHANGELOG.md for verification and remaining limitations.
 
-No new redistribution license is assigned by this collection. Existing notices remain applicable; obtain the author’s permission for reuse where no license is supplied.
+Original imported hashes remain in the authored manifest as `original_files`;
+`files` records the current version. No new redistribution license is assigned.
