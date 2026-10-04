@@ -1,0 +1,15 @@
+{
+  "repo": "elevenlabs/skills",
+  "url": "https://github.com/elevenlabs/skills",
+  "checked_at": "2026-10-04T17:24:04.810583+00:00",
+  "commit": "81f1eafc65c9219ab4aa305d81ffc552a6f43f9d",
+  "skill_files": 11,
+  "full_name": "elevenlabs/skills",
+  "stargazers_count": 470,
+  "forks_count": 78,
+  "pushed_at": "2026-10-03T21:23:14Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Collections of skills for building with ElevenLabs",
+  "license": "MIT"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "surgical-video-toolkit",
+    "author": "Jaymarc Iloreta",
+    "github": "jaymarciloreta-jpg",
+    "role": "User-identified author",
+    "collected_at": "2026-10-04",
+    "path": "authored-by-jaymarc/skills/surgical-video-toolkit",
+    "files": {
+      "SKILL.md": "c9a4d4f5d89552bd171bac36cf09070e7ccb869105c7860aa0656020f07f0691",
+      "RESIDENT_GUIDE.md": "ab2b099cf1cdf23b33f8733caaa6044c90347e195acc081d072c7a96d688afd3",
+      "references/tuning.md": "0e66aefb520547f104909f5d9a2344f3ef743917151b63a4bfc2d8ee25bf6f0a",
+      "references/premiere_handoff.md": "c88355d720b2b3dbe53e1902706016d1101558e39fe0f91dc4b0c96ec10f6ce9",
+      "scripts/detect_deadtime.py": "013362955582d3390263a7bb4ce7a9c18c2c1895321b1ccfb4fba6859644c19e",
+      "scripts/build_timeline.py": "e1eedb84d80823d6afdb920be218a52406803b1915500063faa51439a0ac7251",
+      "scripts/extract_markers.py": "0004a07ed59c10ec4e77d2311d1beaebca97d078d8cc44a416dee635c81988e5",
+      "scripts/common.py": "45a08264c15aacc52b2583a1389be914bb68676e81eabe3d7c673e2047861354",
+      "scripts/align_chunks.py": "82f758a61b8aa72a27ec5237bc8c6c3d3042d275fa530fc3662a4c2335b4255f"
+    }
+  },
+  {
+    "name": "slicer-sinus-roi",
+    "author": "Jaymarc Iloreta",
+    "github": "jaymarciloreta-jpg",
+    "role": "User-identified author",
+    "collected_at": "2026-10-04",
+    "path": "authored-by-jaymarc/skills/slicer-sinus-roi",
+    "files": {
+      "SKILL.md": "2adff1dbef5dd676e1d652d41b4eaf846431f2672a0e38d225c3b7decbcff461",
+      "scripts/create_sinus_roi.py": "a590ae30ac73a937029228536962664f0e58ad3f4fc2b940751e0195b23dbd7e"
+    }
+  },
+  {
+    "name": "nasal-cavity-airflow",
+    "author": "Jaymarc Iloreta",
+    "github": "jaymarciloreta-jpg",
+    "role": "User-identified author",
+    "collected_at": "2026-10-04",
+    "path": "authored-by-jaymarc/skills/nasal-cavity-airflow",
+    "files": {
+      "SKILL.md": "b1f8404bb69afa439b2e9ebcd9165286e36668ff1d168d3fb9ef5238d6022433",
+      "references/segmentation.md": "907021a9a98777960af0d874d161a513172cac6a8a6a3473a897cd882fc78fa7",
+      "references/meshing-export.md": "dfd029ada221e5aed0d17a5d4f14d7da9d7cacce46490dced22e50831a8d4d97",
+      "scripts/segment_airway.py": "c4cd797d0aa7ea77585b527d4e5b3ea2705a44e529ec05f98a7c58f9945c25a4",
+      "scripts/slicer_segment_airway.py": "d00eea97126e5e50f7c7d8f589fe89c78ef9493f1339b45c70a00f2ee4caadf3",
+      "scripts/extract_openfoam_patches.py": "054ed0a3d146c5bc067faa8d3348797fded74d5ada1065eb78c238c85cd82d83"
+    }
+  },
+  {
+    "name": "nasal-airway-cfd",
+    "author": "Jaymarc Iloreta",
+    "github": "jaymarciloreta-jpg",
+    "role": "User-identified author",
+    "collected_at": "2026-10-04",
+    "path": "authored-by-jaymarc/skills/nasal-airway-cfd",
+    "files": {
+      "SKILL.md": "14ae32b61aa897649176cb724682c4d9e9328113a9f021bd3da9e7d0699c03e2",
+      "references/slicer-snippets.md": "29072628d7692bf5ff23b13bd387bc7cfd4262ac7ddb9206e066a9a60904971b",
+      "references/openfoam-pipeline.md": "0edcc740f5dbe10b1d7fae1756d6e32f47fbe3b763638103b894d2f7f600778e",
+      "references/screening.md": "b8e5d1a5771f71a8396ee3e5d5a83115d01ccc0502476df7dc5f9883fc22731b"
+    }
+  },
+  {
+    "name": "slicer",
+    "author": "Jaymarc Iloreta",
+    "github": "jaymarciloreta-jpg",
+    "role": "Local adaptation/curation; underlying Slicer skill credited upstream",
+    "collected_at": "2026-10-04",
+    "path": "authored-by-jaymarc/adaptations/slicer",
+    "files": {
+      "SKILL.md": "fa3636bf46ac38cb536744567af94ba4a066b4491bb05983bef0f9e331fcd733"
+    }
+  }
+]

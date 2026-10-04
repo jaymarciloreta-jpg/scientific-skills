@@ -1,0 +1,15 @@
+{
+  "repo": "runwayml/skills",
+  "url": "https://github.com/runwayml/skills",
+  "checked_at": "2026-10-04T17:24:04.820649+00:00",
+  "commit": "e3dffc15498e9588e7815f37b9ecf10e8bc2c902",
+  "skill_files": 11,
+  "full_name": "runwayml/skills",
+  "stargazers_count": 72,
+  "forks_count": 18,
+  "pushed_at": "2026-08-28T20:50:21Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "for Runway coding agent skills",
+  "license": "MIT"
+}

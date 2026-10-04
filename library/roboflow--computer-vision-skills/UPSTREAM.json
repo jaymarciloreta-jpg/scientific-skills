@@ -1,0 +1,15 @@
+{
+  "repo": "roboflow/computer-vision-skills",
+  "url": "https://github.com/roboflow/computer-vision-skills",
+  "checked_at": "2026-10-04T17:24:03.385038+00:00",
+  "full_name": "roboflow/computer-vision-skills",
+  "stargazers_count": 42,
+  "forks_count": 10,
+  "pushed_at": "2026-10-03T13:30:56Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Agent-ready Skills for Roboflow and Computer Vision workflows",
+  "license": "Apache-2.0",
+  "commit": "76ae1ac18c1d8a92516c4ab41699d794117b4802",
+  "skill_files": 10
+}

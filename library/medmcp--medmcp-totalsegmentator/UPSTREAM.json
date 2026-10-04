@@ -1,0 +1,15 @@
+{
+  "repo": "medmcp/medmcp-totalsegmentator",
+  "url": "https://github.com/medmcp/medmcp-totalsegmentator",
+  "checked_at": "2026-10-04T17:24:04.451993+00:00",
+  "commit": "f5b3efe7ebc363d042cc614d67e320a055b659ec",
+  "skill_files": 1,
+  "full_name": "medmcp/medmcp-totalsegmentator",
+  "stargazers_count": 3,
+  "forks_count": 0,
+  "pushed_at": "2026-09-03T01:45:09Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "[MedMCP Tool] TotalSegmentator (whole body CT & MRI segmentation)",
+  "license": "Apache-2.0"
+}

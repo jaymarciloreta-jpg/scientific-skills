@@ -1,0 +1,323 @@
+# FEMis — an Agent Skill for FEM/CAE (structural · thermal · CFD · EM · multiphysics, across many solvers)
+
+<p align="center">
+  <img src="assets/brand/femis-readme-hero.png" alt="FEMis — FEM claim governance" width="100%">
+</p>
+
+> **FEMis** is an open-source, text-portable **Agent Skill** for **finite-element analysis (FEA / FEM) and CAE
+> governance**: mesh-independence (GCI), verification & validation (V&V), and a precise headless-vs-human automation
+> contract across **Ansys, Abaqus, MSC / Simcenter Nastran, OpenFOAM, COMSOL, LS-DYNA, Simcenter and Thermal Desktop**.
+> It is a **governance / decision layer, not a solver driver**. The entrypoint `SKILL.md` is plain instruction text and
+> the calculators are dependency-free Python. It is tested primarily under **Claude Code** and **OpenAI Codex**; other
+> agents can use it by loading the same text and scripts — see [Using with other agents](#using-with-other-agents).
+
+**The name.** *FEMis* = **FEM** (finite-element method) + **Themis** (Greek Θέμις), the goddess of justice who holds
+the scales. Fitting for a skill that weighs the evidence before any engineering claim and refuses to let one cross
+into **sign-off** without it.
+
+<!-- Machine-readable skill metadata for AI agents and search engines. Canonical manifest: skills_index.json -->
+```yaml
+name: femis
+kind: Agent Skill — CAE/FEM governance & V&V layer (text-portable)
+tested_agents: [Claude Code, OpenAI Codex]
+portable_to: [opencode, Gemini CLI, GLM/Z.ai, Kimi, any LLM agent that loads instructions]
+entrypoint: SKILL.md
+purpose: Turn an AI coding agent into a disciplined FEM/CAE analyst that governs engineering claims.
+when_to_use:
+  - finite-element (FEM / FEA) and CAE analysis; element / solver / unit selection
+  - mesh-independence / Grid Convergence Index (GCI); verification & validation (V&V) and UQ
+  - headless / batch solving; parsing .rst / .rth / .op2 / .f06 results
+  - deciding what an agent may run headless vs what a human must decide or sign off
+not_for: [driving solvers (pair with an executor), pure CAD modeling, closed-form hand calcs]
+pair_with: [PyMAPDL, PyMechanical, PyFluent, Abaqus, OpenFOAM, MSC/Simcenter Nastran, COMSOL, OASiS, CAE MCP]
+physics: [structural, thermal, CFD, electromagnetics, vibro-acoustics/NVH, multibody, multiphysics, fracture, fatigue, composites, buckling, explicit-dynamics]
+manifests: [skills_index.json, references_index.json, agents/openai.yaml]
+license: Apache-2.0
+repo: https://github.com/test1card/femis-skill
+```
+
+An open **Agent Skill** (`SKILL.md` + `references/` + `scripts/`) that turns an AI coding agent into a disciplined
+finite-element analyst. It encodes the full CAE workflow — idealization → meshing → connections →
+solve controls → convergence → mesh independence → V&V — plus the **headless/batch automation and result-parsing
+gotchas** that usually cost hours to rediscover.
+
+For the current verification boundary, see [`EVIDENCE.md`](EVIDENCE.md). It distinguishes tested calculators and
+metadata checks from sourced guidance, partial provenance tags, live A/B evidence, and unproven executor integration.
+For concrete behavior, see [`examples/`](examples/) for runnable GCI and units examples plus a single-mesh claim
+refusal template.
+
+Beyond textbook methodology it adds two things. First, a precise **agent-headless-vs-human contract**: what an
+automation agent may run unattended, and what a person still has to do in the GUI. Second, selected
+confidence-tagged failure-mode recipes — for example, headless thermal-contact settings that pass the solve and
+return a wrong answer. Provenance tagging is currently partial, strongest in execution-sensitive automation
+recipes; untagged reference guidance should be treated as source-backed notes, not author-executed evidence.
+
+**How it fits.** femis is the *methodology / decision layer*, not a solver driver. Pair it with an executor (PyMAPDL,
+PyMechanical, PyFluent, a driver skill, or an Ansys / Abaqus / OpenFOAM MCP server). femis governs that executor: it
+guides and audits the idealization, element, mesh, and connection choices, enforces the execution-mode gates and
+V&V, and uses the headless-vs-human contract to separate what the executor may run unattended from what needs a
+person. The judgment calls (load basis, contact type, defeature scope, allowables, sign-off) stay with a qualified
+engineer. It is the brain; the executor is the hands.
+
+It covers **structural / mechanical, thermal, CFD/fluids, electromagnetics, vibro-acoustics/NVH, multibody,
+coupled multiphysics, and the failure & durability disciplines** (fracture, fatigue, composites, buckling,
+crash/explicit dynamics). The methodology is **solver-agnostic**; worked depth is in Ansys (Mechanical/MAPDL, Fluent,
+CFX), Siemens Simcenter (3D, Nastran, STAR-CCM+, TMG) and Ansys Thermal Desktop (SINDA/FLUINT), with breadth +
+a cross-solver map for **Abaqus, LS-DYNA, MSC Nastran, COMSOL, OpenFOAM, SU2, CalculiX, Code_Aster** and more.
+It also includes the **optimization / calibration / model-updating** layer (optiSLang, DesignXplorer,
+PyMAPDL+SciPy, HEEDS/SHERPA, Simcenter & TMG Correlation, Nastran SOL 200) incl. **transient T(t) curve
+calibration**, a **V&V/UQ** layer (ASME V&V 10/20/40, NAFEMS), and — importantly — a precise
+**agent-can/can't + headless-vs-human contract** so it's unambiguous what an automation agent runs headless
+versus what a person must do in the GUI.
+
+## Why it exists
+
+Most FEA errors happen in pre-processing — wrong units, a mesh that's too coarse, the wrong contact, a missing
+constraint — and the solver still reports success, so they slip through. FEMis makes the agent check the things that
+decide whether a number is usable: it won't quote a stress from a single mesh, it converges the quantity of interest
+instead of a singular peak, it checks equilibrium and energy balance, and it tags every run with an execution mode
+(SMOKE / DEBUG / ENGINEERING / SIGNOFF) that sets which checks are mandatory and what may be claimed. Before stating a
+number it runs a **pre-claim self-check** and writes the result with a **claim template**; for load case, allowable,
+contact type, and sign-off it asks a human instead of guessing (`references/claim-templates.md`,
+`references/escalation-examples.md`). The eval set (`evals/prompts.json`) records the expected behavior; CI checks the
+set's structure — schema, valid modes, and that every referenced file exists — and `scripts/live_eval.py` runs a
+skill-on vs skill-off A/B to measure the actual change (`evals/RESULTS.md`).
+
+## What's inside
+
+```
+SKILL.md                 # the router: agent contract, execution modes, workflow, decision tables, V&V, triage
+EVIDENCE.md              # what is verified, sourced, and not yet proven
+CHANGELOG.md             # release notes
+SECURITY.md              # private reporting guidance for unsafe automation/security issues
+CODE_OF_CONDUCT.md       # community conduct expectations
+README_ASSETS.md         # brand asset inventory and GitHub social-preview guidance
+assets/brand/            # README hero, logo, mark, and social-preview PNG assets
+references/
+  # — governance / claim discipline (the moat) —
+  claim-templates.md              # per-mode (SMOKE/DEBUG/ENGINEERING/SIGNOFF) result-phrasing templates + reusable contract phrases
+  escalation-examples.md          # worked refuse/escalate cases (contact type, single-mesh peak, calibration, sign-off, singularity, ...)
+  claims-validation.md            # sourcing map for router claims (claim -> source -> source-backed/qualified verdict)
+  provenance-coverage.md          # generated coverage table for confidence tags across references/*.md
+  # — core workflow —
+  meshing-convergence.md          # element tech, quality metrics, mesh independence (GCI/ZZ-SPR), p-/hp-refinement, DWR, singularities
+  material-modeling.md            # constitutive models (plasticity/creep/hyperelastic/composite/damage), data sources, calibration
+  solver-numerics.md              # equation/eigen solvers, nonlinear, time integration (implicit/explicit), parallelism, diagnostics
+  mechanical-connections.md       # contact types/formulations, mortar/Nitsche, RBE2 vs RBE3, bolts (VDI 2230)/welds (hot-spot)/joints
+  thermal-contact-resistance.md   # TCR/TCC physics, value tables, cryo, correlations
+  thermal-and-coupling.md         # transient thermal, radiation, phase change, spacecraft/vacuum, ECSS correlation, coupling
+  dynamics-nvh-acoustics.md       # modal/harmonic/random/shock, NVH, vibro-acoustics, rotordynamics, flutter
+  cfd.md                          # turbulence (+UQ), y+/near-wall, CFD meshing, discretization, multiphase, compressible, CHT/FSI
+  # — failure & durability disciplines —
+  fracture-mechanics.md           # LEFM/EPFM, K/J extraction, crack-tip mesh, contour-integral vs VCCT/XFEM/CZM/SMART, FCG
+  fatigue-durability.md           # S-N / ε-N, notch & mean-stress, rainflow/Miner, multiaxial critical-plane, spectral, TMF, FKM
+  composites-analysis.md          # progressive damage (Hashin/Puck/LaRC), crack-band regularization, delamination, sandwich, draping
+  plasticity-inelastic-assessment.md # shakedown/ratcheting/Bree, limit-load, ASME VIII-2 elastic-plastic, stress linearization, springback
+  buckling-stability.md           # LBA vs GNA-GNIA vs GMNIA, knockdown factors, imperfection seeding, post-buckling, stiffened panels
+  explicit-dynamics-impact.md     # when explicit, contact for explicit, erosion, hourglass, mass-scaling, Lagrangian/SPH/ALE/CEL, blast/drop/ballistic
+  # — additional physics —
+  electromagnetics.md             # CEM by frequency regime, FEM-vs-MoM/FDTD, edge elements, ports/radiation BCs, machines/antenna/RF
+  acoustics-fem.md                # duct acoustics, mufflers, absorption, infinite elements vs PML, acoustics-FEM mistakes
+  coupled-process-simulation.md   # battery/fuel-cell, additive manufacturing, welding, curing, molding, casting/forming process coupling
+  ml-surrogates-and-rom.md        # data-driven ROM (POD/DMD/operator-inference), GP/PCE/neural-operator/PINN surrogates, digital twins
+  # — overview, optimization, V&V —
+  specialized-analyses.md         # overview/router to failure disciplines + submodeling, hyperelastic, cyclic symmetry, creep, DOE/topology
+  advanced-methods.md             # substructuring/CMS/ROM, multibody, optimization/topology, loads & BC catalog
+  optimization-calibration.md     # optimizer/calibration tool map (PyAEDT/OSS too); transient-T(t) calibration; objective gate
+  topology-optimization.md        # SIMP/RAMP density methods, filtering & min-length-scale, manufacturing/AM constraints, level-set/lattice
+  vv-uq.md                        # V&V/UQ, credibility scales, ASME V&V 10/20/40, ECSS, SPDM, Bayesian calibration, NAFEMS, governance
+  software-landscape.md           # popular CAE tools (+Physics-AI): use/license/headless/formats + which-tool-for-which-job
+  # — automation & platform —
+  agent-automation-boundary.md    # per-operation agent-headless vs human-GUI contract across every platform
+  platform-commands.md            # MAPDL / Mechanical / Nastran / NX-Open / OpenTD cheat-sheet
+  pymechanical-headless.md        # PyMechanical/Workbench headless gotchas
+  ansys-thermal-contact-pitfalls.md # headless fix for thermally-inert structural contacts (CONTA174 KEYOPT(1))
+  driving-live-sessions.md        # driving live solver sessions: inspect→step→re-inspect, debug-on-failure
+  comsol.md                       # COMSOL automation: JPype/Java API, .mph offline introspection, batch
+scripts/
+  gci.py                          # Grid Convergence Index (mesh/time-step independence) calculator
+  yplus.py                        # y+ first-cell-height estimator for wall-bounded CFD meshing
+  units_check.py                  # consistent-units + 1g mass sanity check (catches wrong-system density)
+  rainflow.py                     # ASTM E1049 rainflow cycle counting + Palmgren-Miner damage
+  mac.py                          # Modal Assurance Criterion + COMAC (auto/cross-MAC, complex modes, mode pairing)
+  hourglass_check.py              # explicit-dynamics energy-quality gate (hourglass % / energy balance / KE-IE)
+  provenance_coverage.py          # generate/check references/provenance-coverage.md
+  run_skill_evals.py              # validate the activation/behavior eval set + score live agent responses, including numeric checks when present
+  live_eval.py                    # optional live A/B harness (skill-on vs skill-off) — measures behavior change
+  run_manifest_template.json      # per-solve traceability manifest (NAFEMS R0033)
+examples/
+  gci-known-values/               # runnable GCI example with checked numeric output
+  units-density-corruption/       # runnable density/unit-system warning example
+  single-mesh-claim-refusal/      # governance example for refusing a single-mesh peak claim
+evals/
+  prompts.json                    # 23 adversarial activation/behavior eval cases (expected refs, mode, refuse/claim/escalate; one numeric GCI case)
+  RESULTS.md                      # measured skill-on vs skill-off A/B results (live behavior-change evidence)
+skills_index.json                 # master machine-readable manifest (router, references, scripts, evals)
+references_index.json             # machine-readable index of references/ (file → title)
+tests/
+  test_examples.py                # keeps examples runnable and expected outputs synchronized
+  test_scripts.py                 # 59 pytest checks across the 6 calculator scripts (known-good values + error paths)
+  test_eval_scoring.py            # scorer regression tests, including numeric ground-truth matching
+  test_provenance_coverage.py     # keeps provenance coverage table generated from references/*.md
+  test_skill_metadata.py          # validates SKILL.md YAML frontmatter and required discovery metadata
+.github/workflows/
+  ci.yml                          # CI: pytest + script self-tests + eval-set validation + source-hygiene gate (placeholders/caches/links/banned-domains/TOCs), Python 3.10-3.13
+```
+
+Progressive disclosure: `SKILL.md` stays lean (a routing layer); the agent loads a `references/` file only when
+that topic is in play.
+
+The `scripts/` are covered by 59 calculator checks in `tests/test_scripts.py`, with additional checks for
+examples, `SKILL.md` metadata, the eval scorer, and the provenance coverage table. CI runs the suite across Python
+3.10–3.13, so the runnable calculators, examples, skill entrypoint, eval harness, and evidence dashboard stay checked.
+
+Current evidence boundaries: pytest covers the calculators, metadata, and eval harness; it does **not** prove that
+every governance instruction is followed by every agent. `evals/prompts.json` is mostly an activation/behavior suite;
+it now includes one numeric GCI ground-truth case, but it is not a full engineering benchmark set. `evals/RESULTS.md`
+is a single-family live A/B snapshot, not a portability certificate.
+
+## Recommended Agentic CAE Workflow
+
+`femis` is designed to sit at the top of an agentic CAE stack as the **governance layer**. It works best when
+paired with solver executors, geometry/mesh tools, and post-processing scripts.
+
+A robust workflow looks like this:
+
+1. **Intake / requirements** — define the objective, quantity of interest, load cases, constraints, materials,
+   environment, acceptance criteria, solver, and consequence level.
+   *Human-owned decisions:* load basis, allowables, design code, idealization, and sign-off authority.
+
+2. **Governance / claim discipline** — use `femis` to choose the execution mode (SMOKE, DEBUG, ENGINEERING,
+   SIGNOFF). The mode determines which gates are mandatory and what the agent may claim.
+
+3. **Geometry and meshing** — use the appropriate geometry/meshing tool (FreeCAD, Gmsh, PyPrimeMesh,
+   PyMechanical, or a commercial meshing API). `femis` governs mesh adequacy; it is not itself a mesher.
+
+4. **Solver execution** — pair with an executor that runs models, for example:
+   - [OASiS](https://github.com/Hereon-InstituteMS/OASiS)
+   - PyMAPDL / PyMechanical / PyFluent
+   - Abaqus Python or `noGUI`
+   - OpenFOAM scripts or MCPs
+   - COMSOL batch / API workflows
+   - Nastran + pyNastran
+   - PyAEDT for electromagnetics
+   - internal CAE driver skills or MCP servers
+
+   The executor runs the solve. `femis` governs the claim.
+
+5. **Verification** — run units, mass, reaction/balance, convergence, singularity, mesh/time-step, and
+   provenance checks. For sign-off-supporting claims, require GCI or an equivalent documented error bound.
+
+6. **Post-processing** — extract only the quantities of interest and evidence (`qoi.csv`, `checks.md`, plots,
+   convergence tables, `run_manifest.json`). Do not paste full solver logs into the agent context.
+
+7. **V&V / credibility review** — state validation evidence, uncertainty, applicability limits, model-form
+   risk, and the weakest credibility factor.
+
+8. **Human sign-off** — the agent prepares the evidence package; a qualified engineer accepts or rejects the result.
+
+This separation is intentional: solver executors run models; `femis` decides whether the resulting numbers
+are only SMOKE/DEBUG artifacts, usable ENGINEERING results, or sign-off-supporting evidence.
+
+### Pairing With OASiS
+
+[OASiS](https://github.com/Hereon-InstituteMS/OASiS) is a natural companion for open-source FEM execution.
+It is an MCP server for multiple FEM backends; `femis` sits above that layer and governs claim quality,
+convergence evidence, provenance, and human-judgment boundaries. **Use OASiS to execute; use `femis` to
+decide what may be claimed** — one recommended executor, not a blessed default.
+
+## Install
+
+This repository **is** the skill: `SKILL.md` lives at the repo root, with `references/` and `scripts/`
+beside it. Install it by placing the repo contents into a directory named `femis` under a `skills/`
+folder, so the path ends up `…/skills/femis/SKILL.md`.
+
+**Personal (all projects):** copy the repo contents into `~/.claude/skills/femis/` (macOS/Linux) or
+`%USERPROFILE%\.claude\skills\femis\` (Windows), with `SKILL.md` at that folder's root.
+
+**Project-scoped:** copy the repo contents into `./.claude/skills/femis/` (again with `SKILL.md` at
+that folder's root).
+
+**Pin a version** for reproducibility — install from a known tag or commit so an analysis always runs
+against a fixed revision of the methodology (after cloning a published copy: `git -C <skill-dir> checkout <tag-or-sha>`).
+
+Or **clone it directly** into the skill path — note the repo is `femis-skill` but the skill folder is
+`femis`:
+
+```bash
+# personal (all projects)
+git clone https://github.com/test1card/femis-skill ~/.claude/skills/femis
+# project-scoped
+git clone https://github.com/test1card/femis-skill .claude/skills/femis
+```
+
+Then pin a revision for reproducibility: `git -C <skill-dir> checkout <tag-or-sha>`. See
+[`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the publishing checklist (the repo must be created and pushed first).
+
+Under Claude Code, the skill activates automatically when the agent's task matches the `description` in `SKILL.md` (e.g. "run a
+transient thermal solve", "calibrate a cooldown curve", "mesh-independence study", ".rth parse"). No manual
+invocation needed.
+
+> Layout note: a bare skill is just the `femis/` folder (with `SKILL.md` at its root) dropped into a
+> `skills/` directory. To distribute it as an installable Claude Code **plugin** (`/plugin` + a marketplace
+> listing), wrap it with a `.claude-plugin/plugin.json`.
+
+## Using with other agents
+
+FEMis is text-portable to any agent that can read instructions and (optionally) run Python, but live behavior has
+only been exercised on a small set of hosts. Treat untested hosts as compatible in principle, not certified:
+
+- **`SKILL.md`** is the router / system prompt — plain Markdown. Prepend it to the system prompt or context of
+  **OpenAI Codex, opencode, Gemini CLI, GLM / Z.ai, Kimi, Cursor, Continue,** etc.
+- **`references/`** load on demand — have the agent open the file `SKILL.md` names for a topic; `references_index.json`
+  lists every file + title for programmatic lookup.
+- **`scripts/`** are dependency-free **Python 3.10+ stdlib** calculators (GCI, y+, units, rainflow, MAC/COMAC,
+  hourglass) — call them from any tool, no SDK required.
+- **`agents/openai.yaml`** mirrors the `SKILL.md` frontmatter for OpenAI Codex-style hosts; **`skills_index.json`**
+  is the canonical machine-readable manifest for discovery.
+
+The Claude Code plugin packaging (`.claude-plugin/plugin.json`, `/plugin` install) is just one convenience
+wrapper — not a requirement.
+
+## Scope
+
+**Use for:** static / modal / buckling / nonlinear structural; steady & transient thermal & radiation; **CFD**
+(RANS/LES, conjugate heat transfer); **vibro-acoustics / NVH**; **electromagnetics** (machines, antenna/RF);
+**multibody**; coupled multiphysics (thermo-mechanical, FSI) and **coupled process simulation** (AM, welding,
+curing, battery/fuel-cell); **failure & durability** (fracture, fatigue, composites, crash/explicit-dynamics);
+contact & thermal contact resistance; bolted/welded/rigid connections; meshing & GCI; substructuring / ROM and
+**ML-surrogates / data-driven ROM / digital twins**; headless/batch solving and result parsing; optimization,
+calibration / inverse parameter ID & model updating; V&V/UQ; cryogenic / vacuum / spacecraft thermal.
+
+**Not for:** pure CAD modeling, or problems better served by a closed-form hand calc.
+
+## Provenance & honesty
+
+Some headless/automation recipes are tagged by confidence: `[AUTHOR-VERIFIED]` (run on a real model), `[DOCS-ONLY]`
+(from documentation, not executed here), `[VERIFIED-web]` / `[NEEDS-HW-TEST]` (vendor-documented; reproduce on
+your licensed install before relying on it for ENGINEERING/SIGNOFF). Coverage is not yet uniform across the
+reference set; see `references/provenance-coverage.md`. Treat any non-`[AUTHOR-VERIFIED]` or untagged automation
+recipe as a hypothesis and run a SMOKE reproducer first.
+
+The short version is:
+
+| Layer | Current evidence |
+|---|---|
+| Helper scripts and small examples | Author-tested in CI with known values and error paths. |
+| Router claims | Source-backed in `references/claims-validation.md`; not an independent audit certificate. |
+| Reference corpus | Cited guidance with partial provenance tags; 7/33 files currently tagged. |
+| Agent behavior | One Claude-family live A/B snapshot plus structural eval cases. |
+| Executor pairing | Documented, but not yet demonstrated end-to-end in this repo. |
+
+For the full boundary, see [`EVIDENCE.md`](EVIDENCE.md).
+
+## License
+
+Apache-2.0 — see [LICENSE](LICENSE). Engineering values quoted are textbook orders-of-magnitude; verify against
+your own materials and standards.
+
+## Contributing
+
+Issues and PRs welcome — especially additional `[AUTHOR-VERIFIED]` headless recipes and platform gotchas. Keep
+`SKILL.md` a lean router; put depth in `references/`. Follow the skill-authoring conventions in
+Anthropic's [Agent Skills best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).

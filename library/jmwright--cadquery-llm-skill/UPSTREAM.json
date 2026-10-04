@@ -1,0 +1,15 @@
+{
+  "repo": "jmwright/cadquery-llm-skill",
+  "url": "https://github.com/jmwright/cadquery-llm-skill",
+  "checked_at": "2026-10-04T17:24:03.677848+00:00",
+  "full_name": "jmwright/cadquery-llm-skill",
+  "stargazers_count": 11,
+  "forks_count": 3,
+  "pushed_at": "2026-05-19T13:04:26Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "A skill to help LLMs understand CadQuery and BRep modelling better",
+  "license": "Apache-2.0",
+  "commit": "270c94be12897eea3fbfa450be43d1803a67cca7",
+  "skill_files": 1
+}

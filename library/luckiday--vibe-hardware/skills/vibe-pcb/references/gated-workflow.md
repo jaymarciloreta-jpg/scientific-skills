@@ -1,0 +1,75 @@
+# The gated workflow (schematic → fab), and how each gate is enforced
+
+A board moves through fixed **stages**, each with a **gate** that must pass before the next.
+The generators emit the design in this order (`gen_pcb.py` phases P1–P8 map to these), and the
+scripts mechanize the gates so "looks done" can't pass for "is done."
+
+| # | Stage | Gate (pass =) | Enforced by |
+|---|---|---|---|
+| 1 | **Schematic, by block** | organized by function, **not a pile**; every part's pins/nets from `parts.yaml` | `pcblib.sch.Sheet` (box symbols, typed pins, PWR_FLAGs); read the plot |
+| 2 | **Annotation** | refdes **unique, no `U?`/`R?`** left | generator assigns explicit refs (placeholders impossible) |
+| 3 | **ERC** | **no floating input · no power conflict · every rail has a driver/PWR_FLAG** | `kicad-cli sch erc` → 0 errors; know the warning classes |
+| 4 | **Netlist + footprints** | every part has a footprint; standard parts **IPC-7351**; a purchased module's land **derived from its vendor reference** (EST only if none exists); sch↔pcb consistent | std lib for passives; vendor reference / generated land (`gen_footprints.py`); sch+pcb share `parts.yaml` → consistent by construction |
+| 5 | **Place** | decoupling hugs the power pin · connectors at contract ports · routing channels reserved | `pcblib` relations (`beside`/`align_pads`/`at_edge`/`Cluster`); `gates.scorecard` = 0 hard fails |
+| 6 | **Route** | **power widened · critical nets first · continuous return · antenna keep-out** · **every `FR_ARGS` setting actually applied** | freerouting (`autoroute.sh`, classes from `parts.yaml`) or `pcblib.route` scripted; `gnd_pours` + contract rule-areas |
+| 7 | **DRC** | **0 error-severity / 0 unconnected** (zones filled) | `pcb_check.sh` → `kicad-cli pcb drc --refill-zones` (or `drc_report.py` on kicad-cli <8) + `belly_check.py` / `gates.keepout_violations` |
+| 8 | **Fab + review** | gerber/BOM/CPL out; design reviewed; physical-verify checklist | `fab_export.sh`; `REVIEW.md`; kicad-happy cross/EMC |
+
+## Notes that bite
+
+- **Gate 3 — drivers.** GND/main rails as power symbols are `power_in`; they need a `power_out`
+  pin (regulator/MCU) **or a `PWR_FLAG`** on the net, else ERC says *power input not driven*.
+  Derived rails kept as net labels don't trigger this.
+- **Gate 4 — derive a purchased module's land from its vendor reference; don't EST it.** If the
+  module has a vendor-released footprint/3D (keep it read-only in `parts/<slug>/reference/`),
+  extract the land **verbatim** — its pads *and* its datasheet pad numbering — so it is **not
+  EST at all**. That kills both failure modes in one move: the wrong-pad miswire (next bullet)
+  *and* an approximated castellated land that's geometrically inaccurate and hard to hand-solder
+  (no real half-holes, guessed row pitch). EST is only the fallback for a part with **no**
+  published reference — then datasheet-read it (next bullet). Worked example: the TC5.1-Xiao
+  carrier pulls the exact Seeed `XIAO-14P-Add-On` land + 3D transform from
+  the vendor reference dir of the module (the `vibe-parts` companion repo hosts worked ones).
+- **Gate 4 — IPC-7351 is for *standard* parts.** A custom module/connector land (a castellated
+  XIAO footprint, a breakout landing) is **not** IPC-7351 by definition — derive it from the
+  vendor reference (above) or mark it **EST** and put it on the brief's verify-against-datasheet
+  list; don't claim IPC compliance for it.
+- **Gate 4 — verify a purchased module's pad-NUMBER → position map against the vendor's real
+  castellation order; `cross_analysis` will NOT catch a wrong one.** A reversed row in the
+  footprint (e.g. the XIAO bottom row numbered backwards) keeps every net electrically valid —
+  it just bonds the net to the wrong physical pin — so ERC, DRC, *and* the sch↔pcb cross-check
+  all pass clean. The cross-check only proves sch and pcb agree on pad *N*; if pad *N* itself
+  is mislocated, both agree on the same lie. The only gate that catches it is a
+  pinmap-vs-datasheet read (cross the `pinmap.yaml` pin↔pad map against the module's datasheet
+  castellation drawing). Real incident: a reversed XIAO bottom row routed `+3V3`/`GND` onto two
+  GPIO pads, fabbed, and the sensor only ACK'd on I²C while its measurement core stayed dead —
+  because it was powered through a GPIO. Treat the module pinmap as **EST until datasheet-read**,
+  same as the land itself.
+- **Gate 6 — return path on 2 layers.** Add a **GND pour** (both layers) for a continuous return;
+  it auto-clears around traces, so a DRC-clean trace layout stays clean once poured. **Zones save
+  UNFILLED** from headless pcbnew (`ZONE_FILLER.Fill()` segfaults) — fill at check/fab time with
+  `--refill-zones`. **Antenna keep-out**: an on-board-antenna module needs copper kept out under
+  the antenna (a rule-area); an *external*-antenna module (e.g. XIAO ESP32-S3's U.FL) moves that
+  concern off-board — state which applies, don't silently skip it.
+- **Gate 6 — power widening is per-net-class, not heroics.** Widen power vs signal (e.g. 0.4 vs
+  0.3 mm); width sets ampacity, not corner angle. On a low-current sensor carrier this is margin,
+  not necessity — but the gate still wants the *intent* in the source (`NET_W`).
+- **Gate 6 — a router setting you *passed* is not a router setting that *applied*.** freerouting
+  logs `Unknown settings property: …` for a misspelt or too-new `--setting` and then routes with
+  the default, exit 0. `autoroute.sh` fails on that string; if you drive freerouting by hand,
+  read its log before believing the constraint held (`references/autorouting.md`, gotchas 4–5).
+- **Gate 6/7 — the autorouter's own summary is not the gate.** freerouting counts one DSN pin
+  per pad *instance*, so a castellated module land (pad 5 present on F.Cu, B.Cu and the
+  half-hole) makes it report `A1-5@2 -> A1-5@1` as an *unrouted connection* and score the
+  overlapping same-net copper as violations — "4 unrouted and 84 violations" on a board KiCad
+  then imports at **0 unconnected, 0 DRC errors**. Check whether the unrouted list names the
+  same pad or different pads before believing it; the DRC report decides.
+- **Gate 7 — DRC must run on FILLED zones.** Unfilled-zone DRC silently skips pour clearance.
+  `pcb_check.sh` passes `--refill-zones` so the gate checks the real copper.
+- **Don't claim a gate you didn't run.** If `cross_analysis`/EMC (gate 4/8) weren't run this
+  session, say so; if the fab pack predates the last regen, it's **stale** — regenerate.
+
+## Honest scorecard (do this, don't self-congratulate)
+
+For each gate: **✅ met / ⚠️ partial / ❌ gap / N/A (with reason)**, backed by the command output —
+not a vibe. A small board legitimately has N/A gates (no xtal, external antenna, low current); say
+*why* it's N/A rather than quietly skipping. The point of the gates is to make the gaps visible.

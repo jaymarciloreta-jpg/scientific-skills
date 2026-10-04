@@ -1,0 +1,6 @@
+interface:
+  display_name: "人物叙事动漫视频导演"
+  short_description: "先选文案、锁导演方案，再制作对齐的Q版科普视频"
+  default_prompt: "Use $science-video-director to propose three script directions, wait for my final narration approval, lock a director plan, and produce a synchronized 16:9 Chinese story-led explainer."
+policy:
+  allow_implicit_invocation: true

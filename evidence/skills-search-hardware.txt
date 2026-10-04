@@ -1,0 +1,63 @@
+
+[38;5;102mInstall with[0m npx skills add <owner/repo@skill>
+
+[38;5;145mleonxlnx/taste-skill@stitch-design-taste[0m [36m350.4K installs[0m
+[38;5;102m└ https://skills.sh/leonxlnx/taste-skill/stitch-design-taste[0m
+
+[38;5;145memilkowalski/skills@mobile-native[0m [36m34.8K installs[0m
+[38;5;102m└ https://skills.sh/emilkowalski/skills/mobile-native[0m
+
+[38;5;145msoftware-mansion/argent@argent-device-interact[0m [36m21.3K installs[0m
+[38;5;102m└ https://skills.sh/software-mansion/argent/argent-device-interact[0m
+
+[38;5;145mgoogle-labs-code/stitch-skills@taste-design[0m [36m19.1K installs[0m
+[38;5;102m└ https://skills.sh/google-labs-code/stitch-skills/taste-design[0m
+
+[38;5;145mearthtojake/text-to-cad@sendcutsend[0m [36m8.7K installs[0m
+[38;5;102m└ https://skills.sh/earthtojake/text-to-cad/sendcutsend[0m
+
+[38;5;145mdpearson2699/swift-ios-skills@device-integrity[0m [36m3.5K installs[0m
+[38;5;102m└ https://skills.sh/dpearson2699/swift-ios-skills/device-integrity[0m
+
+[38;5;145mdpearson2699/swift-ios-skills@homekit[0m [36m2.9K installs[0m
+[38;5;102m└ https://skills.sh/dpearson2699/swift-ios-skills/homekit[0m
+
+[38;5;145mdpearson2699/swift-ios-skills@ios-simulator[0m [36m2.8K installs[0m
+[38;5;102m└ https://skills.sh/dpearson2699/swift-ios-skills/ios-simulator[0m
+
+[38;5;145maffaan-m/ecc@ito-compute[0m [36m2.6K installs[0m
+[38;5;102m└ https://skills.sh/affaan-m/ecc/ito-compute[0m
+
+[38;5;145mhuggingface/skills@huggingface-llm-trainer[0m [36m2K installs[0m
+[38;5;102m└ https://skills.sh/huggingface/skills/huggingface-llm-trainer[0m
+
+[38;5;145maws/agent-toolkit-for-aws@amazon-braket[0m [36m2K installs[0m
+[38;5;102m└ https://skills.sh/aws/agent-toolkit-for-aws/amazon-braket[0m
+
+[38;5;145mmckruz/comfyui-expert@comfyui-workflow-builder[0m [36m1.9K installs[0m
+[38;5;102m└ https://skills.sh/mckruz/comfyui-expert/comfyui-workflow-builder[0m
+
+[38;5;145mnvidia/skills@nemo-mbridge-recipe-recommender[0m [36m1.9K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/nemo-mbridge-recipe-recommender[0m
+
+[38;5;145mnvidia/skills@nemo-mbridge-perf-parallelism-strategies[0m [36m1.9K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/nemo-mbridge-perf-parallelism-strategies[0m
+
+[38;5;145mnvidia/skills@nemo-mbridge-perf-moe-hardware-configs[0m [36m1.9K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/nemo-mbridge-perf-moe-hardware-configs[0m
+
+[38;5;145mnvidia/skills@nemo-mbridge-perf-moe-dispatcher-selection[0m [36m1.8K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/nemo-mbridge-perf-moe-dispatcher-selection[0m
+
+[38;5;145mnvidia/skills@mcore-run-on-slurm[0m [36m1.8K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/mcore-run-on-slurm[0m
+
+[38;5;145mcallstackincubator/agent-skills@react-native-tv-best-practices[0m [36m1.8K installs[0m
+[38;5;102m└ https://skills.sh/callstackincubator/agent-skills/react-native-tv-best-practices[0m
+
+[38;5;145mzhaoxuya520/reverse-skill@hardware-security[0m [36m897 installs[0m
+[38;5;102m└ https://skills.sh/zhaoxuya520/reverse-skill/hardware-security[0m
+
+[38;5;145mmohitmishra786/low-level-dev-skills@hardware-counters[0m [36m483 installs[0m
+[38;5;102m└ https://skills.sh/mohitmishra786/low-level-dev-skills/hardware-counters[0m
+

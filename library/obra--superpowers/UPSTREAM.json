@@ -1,0 +1,15 @@
+{
+  "repo": "obra/superpowers",
+  "url": "https://github.com/obra/superpowers",
+  "checked_at": "2026-10-04T17:24:04.193122+00:00",
+  "full_name": "obra/superpowers",
+  "stargazers_count": 295194,
+  "forks_count": 26381,
+  "pushed_at": "2026-09-27T02:37:47Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "An agentic skills framework & software development methodology that works.",
+  "license": "MIT",
+  "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+  "skill_files": 15
+}

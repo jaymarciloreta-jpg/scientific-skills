@@ -1,0 +1,16 @@
+{
+  "repositories": 37,
+  "indexed_skills": 473,
+  "collected_skills": 397,
+  "unique_content_hashes": 473,
+  "categories": {
+    "CAD, simulation & hardware": 144,
+    "Video, audio & physician content": 88,
+    "Computer vision & ML": 57,
+    "Medical imaging & segmentation": 34,
+    "Scientific ideation & research": 60,
+    "Iteration & reproducibility": 52,
+    "Medical device quality & validation": 73
+  },
+  "local_matches": 35
+}

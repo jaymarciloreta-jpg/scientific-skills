@@ -1,0 +1,15 @@
+{
+  "repo": "test1card/femis-skill",
+  "url": "https://github.com/test1card/femis-skill",
+  "checked_at": "2026-10-04T17:24:04.488004+00:00",
+  "commit": "ceff46782f8379425162f7de42a46312f07704a5",
+  "skill_files": 1,
+  "full_name": "test1card/femis-skill",
+  "stargazers_count": 5,
+  "forks_count": 0,
+  "pushed_at": "2026-06-29T15:57:38Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Text-portable Agent Skill for FEM/CAE governance: GCI mesh-independence, V&V, execution-mode gates, and headless-vs-human claim discipline across Ansys, Abaqus, Nastran, OpenFOAM, COMSOL and more.",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,15 @@
+{
+  "repo": "kissawang9-ai/science-video-director",
+  "url": "https://github.com/kissawang9-ai/science-video-director",
+  "checked_at": "2026-10-04T17:24:04.709729+00:00",
+  "commit": "2bb587dccdc563e7e6046e8477848078a1843f1e",
+  "skill_files": 1,
+  "full_name": "kissawang9-ai/science-video-director",
+  "stargazers_count": 2,
+  "forks_count": 0,
+  "pushed_at": "2026-07-18T11:11:37Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "A story-first Codex skill for synchronized Chinese explainer videos with script approval, director lock, reusable assets, and verified exports.",
+  "license": "MIT"
+}

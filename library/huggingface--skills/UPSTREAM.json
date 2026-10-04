@@ -1,0 +1,15 @@
+{
+  "repo": "huggingface/skills",
+  "url": "https://github.com/huggingface/skills",
+  "checked_at": "2026-10-04T17:24:04.166122+00:00",
+  "full_name": "huggingface/skills",
+  "stargazers_count": 11137,
+  "forks_count": 757,
+  "pushed_at": "2026-10-01T12:33:22Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Give your agents the power of the Hugging Face ecosystem",
+  "license": "Apache-2.0",
+  "commit": "ca0325bb20b2d0a1b2efa893670c4c72f79e707b",
+  "skill_files": 26
+}

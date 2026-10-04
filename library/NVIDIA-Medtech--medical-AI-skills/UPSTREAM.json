@@ -1,0 +1,15 @@
+{
+  "repo": "NVIDIA-Medtech/medical-AI-skills",
+  "url": "https://github.com/NVIDIA-Medtech/medical-AI-skills",
+  "checked_at": "2026-10-04T17:24:03.385441+00:00",
+  "full_name": "NVIDIA-Medtech/medical-AI-skills",
+  "stargazers_count": 23,
+  "forks_count": 3,
+  "pushed_at": "2026-09-24T17:22:52Z",
+  "archived": false,
+  "default_branch": "dev",
+  "description": "verified skills catalog for NVIDIA MedTech",
+  "license": "Apache-2.0",
+  "commit": "1bc3f866f8f917b297095a82f23a2a09a1a66df9",
+  "skill_files": 25
+}

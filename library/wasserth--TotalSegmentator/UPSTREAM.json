@@ -1,0 +1,15 @@
+{
+  "repo": "wasserth/TotalSegmentator",
+  "url": "https://github.com/wasserth/TotalSegmentator",
+  "checked_at": "2026-10-04T17:24:04.289933+00:00",
+  "full_name": "wasserth/TotalSegmentator",
+  "stargazers_count": 3035,
+  "forks_count": 482,
+  "pushed_at": "2026-10-02T14:07:48Z",
+  "archived": false,
+  "default_branch": "master",
+  "description": "Tool for robust segmentation of >100 important anatomical structures in CT and MR images",
+  "license": "Apache-2.0",
+  "commit": "246be1de845148081a151870b99aaf8407b7621c",
+  "skill_files": 1
+}

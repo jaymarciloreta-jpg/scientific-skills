@@ -1,0 +1,15 @@
+{
+  "repo": "pieper/slicer-skill",
+  "url": "https://github.com/pieper/slicer-skill",
+  "checked_at": "2026-10-04T17:24:04.444650+00:00",
+  "full_name": "pieper/slicer-skill",
+  "stargazers_count": 32,
+  "forks_count": 7,
+  "pushed_at": "2026-09-17T14:09:15Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "SKILLS.md style information for slicer programing and usage",
+  "license": "Apache-2.0",
+  "commit": "c3b9f3bbc2b95938e73f1ad0c2e6c01a8fd2e32f",
+  "skill_files": 1
+}

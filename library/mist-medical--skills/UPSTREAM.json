@@ -1,0 +1,15 @@
+{
+  "repo": "mist-medical/skills",
+  "url": "https://github.com/mist-medical/skills",
+  "checked_at": "2026-10-04T17:24:03.385239+00:00",
+  "full_name": "mist-medical/skills",
+  "stargazers_count": 0,
+  "forks_count": 2,
+  "pushed_at": "2026-10-03T18:29:19Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "LLM skill files for MIST and other upcoming tools",
+  "license": "Apache-2.0",
+  "commit": "7e3f78a23ee6dc66f854258fd3ee183f448ee384",
+  "skill_files": 2
+}

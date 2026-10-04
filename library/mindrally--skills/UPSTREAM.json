@@ -1,0 +1,15 @@
+{
+  "repo": "mindrally/skills",
+  "url": "https://github.com/mindrally/skills",
+  "checked_at": "2026-10-04T17:24:04.012695+00:00",
+  "full_name": "Mindrally/skills",
+  "stargazers_count": 266,
+  "forks_count": 41,
+  "pushed_at": "2026-09-03T15:59:25Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "255+ Claude Code skills converted from Cursor rules. Expert coding guidelines for every major framework and language.",
+  "license": "Apache-2.0",
+  "commit": "97184105b5daa3a6860a2aeb8e7e7fd1c42da40a",
+  "skill_files": 265
+}

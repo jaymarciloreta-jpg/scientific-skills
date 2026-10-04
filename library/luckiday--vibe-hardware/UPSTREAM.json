@@ -1,0 +1,15 @@
+{
+  "repo": "luckiday/vibe-hardware",
+  "url": "https://github.com/luckiday/vibe-hardware",
+  "checked_at": "2026-10-04T17:24:03.768262+00:00",
+  "full_name": "luckiday/vibe-hardware",
+  "stargazers_count": 5,
+  "forks_count": 2,
+  "pushed_at": "2026-09-17T06:05:03Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Vibe-code real hardware: agent skills that take a device from a plain-language idea to firmware, a KiCad PCB, an enclosure, and a fab order.",
+  "license": "MIT",
+  "commit": "d2b5031682041a52e7647393b2ed32f688ca8340",
+  "skill_files": 7
+}

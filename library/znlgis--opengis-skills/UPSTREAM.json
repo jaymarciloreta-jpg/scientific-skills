@@ -1,0 +1,15 @@
+{
+  "repo": "znlgis/opengis-skills",
+  "url": "https://github.com/znlgis/opengis-skills",
+  "checked_at": "2026-10-04T17:24:03.756145+00:00",
+  "full_name": "znlgis/opengis-skills",
+  "stargazers_count": 63,
+  "forks_count": 11,
+  "pushed_at": "2026-09-22T23:47:16Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "\u5f00\u6e90GIS-AI\u6280\u80fd\u96c6",
+  "license": "MIT",
+  "commit": "e0d0947d7f6ea0937d16bd21b2741cfcb6dc7544",
+  "skill_files": 83
+}

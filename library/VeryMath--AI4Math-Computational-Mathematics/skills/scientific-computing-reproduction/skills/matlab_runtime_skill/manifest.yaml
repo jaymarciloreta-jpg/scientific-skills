@@ -1,0 +1,29 @@
+schema_version: 1
+name: matlab_runtime_skill
+version: 0.1.0
+scope: computational-math-runtime
+description: Pass MATLAB reproduction context to the shared matlab-runner and collect its actual results.
+entrypoint: SKILL.md
+requires_env:
+  conda: ai4math
+requires_tools:
+  - agent-native-file-inspection
+  - installed-matlab-runner-skill
+requires_skills:
+  - environment_deployment_skill
+  - human_review_skill
+input_artifacts:
+  - source_path
+  - matlab_files
+  - optional_matlab_mcp_status
+output_artifacts:
+  - matlab_runtime_plan
+  - matlab_runtime_summary.json
+  - logs/run.log
+  - matlab_toolbox_summary
+approval_required_for:
+  - matlab_code_execution
+  - mcp_configuration_change
+  - toolbox_installation
+  - source_edit
+risk_level: medium

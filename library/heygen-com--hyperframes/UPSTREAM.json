@@ -1,0 +1,15 @@
+{
+  "repo": "heygen-com/hyperframes",
+  "url": "https://github.com/heygen-com/hyperframes",
+  "checked_at": "2026-10-04T17:24:04.670971+00:00",
+  "commit": "a2f41608993e3fa74b81b5845d3000a7a0be698e",
+  "skill_files": 40,
+  "full_name": "heygen-com/hyperframes",
+  "stargazers_count": 56630,
+  "forks_count": 5082,
+  "pushed_at": "2026-10-04T17:26:10Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Write HTML. Render video. Built for agents.",
+  "license": "Apache-2.0"
+}

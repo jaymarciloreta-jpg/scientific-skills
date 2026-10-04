@@ -1,0 +1,15 @@
+{
+  "repo": "Aditya-Tandon/claude-research-skills",
+  "url": "https://github.com/Aditya-Tandon/claude-research-skills",
+  "checked_at": "2026-10-04T17:24:03.978507+00:00",
+  "full_name": "Aditya-Tandon/claude-research-skills",
+  "stargazers_count": 0,
+  "forks_count": 0,
+  "pushed_at": "2026-08-30T22:26:18Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Structured, agent-driven scientific research skills for Claude Code",
+  "license": "MIT",
+  "commit": "4664d1ca1c90f89a835457b83446b52a969c87c2",
+  "skill_files": 10
+}

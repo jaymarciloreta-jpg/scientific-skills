@@ -1,0 +1,15 @@
+{
+  "repo": "VeryMath/AI4Math-Computational-Mathematics",
+  "url": "https://github.com/VeryMath/AI4Math-Computational-Mathematics",
+  "checked_at": "2026-10-04T17:24:04.589182+00:00",
+  "commit": "e9a3a7c0738106c4d923dd6fb6253072365b0023",
+  "skill_files": 17,
+  "full_name": "VeryMath/AI4Math-Computational-Mathematics",
+  "stargazers_count": 1,
+  "forks_count": 0,
+  "pushed_at": "2026-09-17T10:03:19Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "AI4Math skills for computational mathematics, invariant computation, and scientific-code reproduction.",
+  "license": "MIT"
+}

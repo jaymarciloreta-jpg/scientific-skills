@@ -1,0 +1,118 @@
+<div align="center">
+
+# AI4Math · 计算数学
+
+面向数值证据、符号结构和数学不变量计算的 AI4Math 技能集合。
+
+[English](README.md) · [贡献者](CONTRIBUTORS.md) · [技能包](#技能包) · [安装](#安装) · [快速开始](#快速开始) · [安全边界](#安全边界)
+
+![version](https://img.shields.io/badge/version-0.1.0-blue)
+![skills](https://img.shields.io/badge/skills-3-2ea44f)
+![license](https://img.shields.io/badge/license-MIT-green)
+
+</div>
+
+<p align="center">
+  如果这个项目对你有帮助，欢迎为仓库点 Star ⭐
+  <a href="https://github.com/VeryMath/AI4Math-Computational-Mathematics"><img alt="GitHub Stars" src="https://img.shields.io/github/stars/VeryMath/AI4Math-Computational-Mathematics?style=social"></a>
+</p>
+
+## 这个仓库是什么
+
+这个仓库是 AI4Math 计算数学方向的技能入口，收集用于把数学对象、方程、数据或论文片段转成可复核计算表示和可复现实验证据的技能包。
+
+根 README 负责说明地图；真正执行任务时，请进入对应的 `skills/` 子目录。
+
+## 技能包
+
+| 包 | 适用任务 | 入口 |
+| --- | --- | --- |
+| [`invariant-computation`](skills/invariant-computation/) | 选择、执行和验证代数、拓扑、几何、TDA 与 certified numerical invariant 计算路线。 | [`README`](skills/invariant-computation/README.md) · [`SKILL`](skills/invariant-computation/SKILL.md) |
+| [`least-squares`](skills/least-squares/) | 线性、多项式、非线性、正则化、约束和贝叶斯最小二乘建模。 | [`README`](skills/least-squares/README.md) · [`SKILL`](skills/least-squares/SKILL.md) |
+| [`scientific-computing-reproduction`](skills/scientific-computing-reproduction/) | 计算数学科研代码复现、失败诊断、调参、可视化和证据化报告。 | [`README`](skills/scientific-computing-reproduction/README.md) · [`SKILL`](skills/scientific-computing-reproduction/SKILL.md) |
+
+## 安装
+
+推荐方式是 AI 自动安装：让你的 coding agent 自己 clone 或更新仓库、读取 Skill 说明、安装入口并验证 discovery。
+
+```text
+请帮我安装这些 AI4Math Skills。
+
+仓库：https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+分支：main
+Skill 路径：
+- skills/invariant-computation
+- skills/least-squares
+- skills/scientific-computing-reproduction
+
+请执行：
+1. 本地 clone 或更新仓库。
+2. 读取 README.md、SKILL.md、AGENTS.md（如果存在）以及每个目标 Skill 入口。
+3. 如果当前环境支持本地 Skill discovery，把每个包含 SKILL.md 的目录链接到本地 skills 目录。
+4. 如果某个 Skill 依赖相邻的共享支持目录，请保留这些 sibling 目录。
+5. 验证安装后的 Skills 是否可被发现。
+6. 告诉我安装路径、是否需要重启 agent，并给我一个测试 prompt。
+```
+
+Codex 风格本地 discovery 的手工 fallback：
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+cd AI4Math-Computational-Mathematics
+mkdir -p ~/.codex/skills
+ln -s "$PWD/skills/invariant-computation" ~/.codex/skills/invariant-computation
+ln -s "$PWD/skills/least-squares" ~/.codex/skills/least-squares
+ln -s "$PWD/skills/scientific-computing-reproduction" ~/.codex/skills/scientific-computing-reproduction
+```
+
+如果你的 agent 使用别的本地 Skill 目录，把 `~/.codex/skills` 替换成对应配置路径。
+
+## 快速开始
+
+克隆仓库并选择技能包：
+
+```bash
+git clone https://github.com/VeryMath/AI4Math-Computational-Mathematics.git
+cd AI4Math-Computational-Mathematics
+```
+
+不变量计算从这里开始：
+
+```text
+skills/invariant-computation/SKILL.md
+```
+
+最小二乘建模从这里开始：
+
+```text
+skills/least-squares/SKILL.md
+```
+
+科学计算复现和调参从这里开始：
+
+```text
+skills/scientific-computing-reproduction/SKILL.md
+```
+
+## 仓库结构
+
+```text
+AI4Math-Computational-Mathematics/
+├── README.md
+├── README.zh-CN.md
+├── SKILL.md
+└── skills/
+    ├── invariant-computation/
+    ├── least-squares/
+    └── scientific-computing-reproduction/
+```
+
+包内 examples 只作为公开示例。计算输出、环境缓存和大型生成物不要提交，除非已经明确整理成公开示例。
+
+## 验证
+
+这个仓库没有根级构建步骤。标准 `SKILL.md` 技能包请使用本地 skill validator 验证。
+
+## 安全边界
+
+不要提交私有数据集、未公开论文片段、求解器凭证、API key、`.env` 文件、生成缓存或大型本地输出。公开示例应注明来源，并确认可以再分发。

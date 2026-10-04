@@ -1,0 +1,63 @@
+
+[38;5;102mInstall with[0m npx skills add <owner/repo@skill>
+
+[38;5;145mleonxlnx/taste-skill@imagegen-frontend-web[0m [36m335.6K installs[0m
+[38;5;102m└ https://skills.sh/leonxlnx/taste-skill/imagegen-frontend-web[0m
+
+[38;5;145mcoreyhaines31/marketingskills@analytics[0m [36m72.3K installs[0m
+[38;5;102m└ https://skills.sh/coreyhaines31/marketingskills/analytics[0m
+
+[38;5;145mzenstory-ai/oh-story-claudecode@story-short-analyze[0m [36m15.2K installs[0m
+[38;5;102m└ https://skills.sh/zenstory-ai/oh-story-claudecode/story-short-analyze[0m
+
+[38;5;145maffaan-m/ecc@video-editing[0m [36m12.2K installs[0m
+[38;5;102m└ https://skills.sh/affaan-m/ecc/video-editing[0m
+
+[38;5;145mwshobson/agents@cqrs-implementation[0m [36m10.5K installs[0m
+[38;5;102m└ https://skills.sh/wshobson/agents/cqrs-implementation[0m
+
+[38;5;145maffaan-m/ecc@inventory-demand-planning[0m [36m8.8K installs[0m
+[38;5;102m└ https://skills.sh/affaan-m/ecc/inventory-demand-planning[0m
+
+[38;5;145mgetcargohq/cargo-skills@cargo-storage[0m [36m8K installs[0m
+[38;5;102m└ https://skills.sh/getcargohq/cargo-skills/cargo-storage[0m
+
+[38;5;145mmbfinotti/sales-skills@sales-account-segmentation[0m [36m6K installs[0m
+[38;5;102m└ https://skills.sh/mbfinotti/sales-skills/sales-account-segmentation[0m
+
+[38;5;145maffaan-m/ecc@homelab-vlan-segmentation[0m [36m5.6K installs[0m
+[38;5;102m└ https://skills.sh/affaan-m/ecc/homelab-vlan-segmentation[0m
+
+[38;5;145manthropics/knowledge-work-plugins@analyze[0m [36m5.5K installs[0m
+[38;5;102m└ https://skills.sh/anthropics/knowledge-work-plugins/analyze[0m
+
+[38;5;145maws/agent-toolkit-for-aws@aws-networking[0m [36m5K installs[0m
+[38;5;102m└ https://skills.sh/aws/agent-toolkit-for-aws/aws-networking[0m
+
+[38;5;145mbrowser-use/video-use@video-use[0m [36m4.2K installs[0m
+[38;5;102m└ https://skills.sh/browser-use/video-use/video-use[0m
+
+[38;5;145mgetcargohq/cargo-skills@cargo-segmentation[0m [36m4.1K installs[0m
+[38;5;102m└ https://skills.sh/getcargohq/cargo-skills/cargo-segmentation[0m
+
+[38;5;145mphuryn/pm-skills@user-segmentation[0m [36m2.6K installs[0m
+[38;5;102m└ https://skills.sh/phuryn/pm-skills/user-segmentation[0m
+
+[38;5;145msamber/developer-relations-skills@developer-segmentation[0m [36m2.4K installs[0m
+[38;5;102m└ https://skills.sh/samber/developer-relations-skills/developer-segmentation[0m
+
+[38;5;145mnvidia/skills@tao-train-mask2former[0m [36m1.6K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/tao-train-mask2former[0m
+
+[38;5;145mnvidia/skills@tao-train-segformer[0m [36m1.6K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/tao-train-segformer[0m
+
+[38;5;145mnvidia/skills@tao-train-mask-auto-label[0m [36m1.6K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/tao-train-mask-auto-label[0m
+
+[38;5;145mnvidia/skills@tao-train-oneformer[0m [36m1.6K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/tao-train-oneformer[0m
+
+[38;5;145mnvidia/skills@tao-train-mask-grounding-dino[0m [36m1.6K installs[0m
+[38;5;102m└ https://skills.sh/nvidia/skills/tao-train-mask-grounding-dino[0m
+

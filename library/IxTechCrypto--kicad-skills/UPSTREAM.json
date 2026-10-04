@@ -1,0 +1,15 @@
+{
+  "repo": "IxTechCrypto/kicad-skills",
+  "url": "https://github.com/IxTechCrypto/kicad-skills",
+  "checked_at": "2026-10-04T17:24:03.775412+00:00",
+  "full_name": "IxTechCrypto/kicad-skills",
+  "stargazers_count": 4,
+  "forks_count": 1,
+  "pushed_at": "2026-09-19T20:00:57Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Production-grade AI agent skills, automation scripts, and DFM design rules for modern KiCad 10 electronics engineering.",
+  "license": "MIT",
+  "commit": "b6b2e242341c2017228f5081d2cfea15c62e2edf",
+  "skill_files": 8
+}

@@ -1,0 +1,15 @@
+{
+  "repo": "AminAlam/meddev-agent-skills",
+  "url": "https://github.com/AminAlam/meddev-agent-skills",
+  "checked_at": "2026-10-04T17:24:03.385677+00:00",
+  "full_name": "AminAlam/meddev-agent-skills",
+  "stargazers_count": 29,
+  "forks_count": 8,
+  "pushed_at": "2026-05-21T20:59:17Z",
+  "archived": false,
+  "default_branch": "main",
+  "description": "Modular \u201cskill\u201d files for AI coding agents working on medical device software",
+  "license": "MIT",
+  "commit": "10d8255b6f68dfc27aab4b72710519ce68e058cb",
+  "skill_files": 59
+}

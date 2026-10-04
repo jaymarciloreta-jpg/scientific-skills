@@ -1,0 +1,63 @@
+
+[38;5;102mInstall with[0m npx skills add <owner/repo@skill>
+
+[38;5;145mmattpocock/skills@grill-with-docs[0m [36m1.1M installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/grill-with-docs[0m
+
+[38;5;145mmattpocock/skills@grilling[0m [36m828.1K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/grilling[0m
+
+[38;5;145mmattpocock/skills@to-spec[0m [36m604.3K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/to-spec[0m
+
+[38;5;145mmattpocock/skills@research[0m [36m603.4K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/research[0m
+
+[38;5;145mmattpocock/skills@writing-beats[0m [36m411.2K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/writing-beats[0m
+
+[38;5;145mmattpocock/skills@to-questionnaire[0m [36m398.7K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/to-questionnaire[0m
+
+[38;5;145mobra/superpowers@brainstorming[0m [36m384.9K installs[0m
+[38;5;102m└ https://skills.sh/obra/superpowers/brainstorming[0m
+
+[38;5;145mlllllllama/rigorpilot-skills@ai-research-explore[0m [36m311.4K installs[0m
+[38;5;102m└ https://skills.sh/lllllllama/rigorpilot-skills/ai-research-explore[0m
+
+[38;5;145mmattpocock/skills@zoom-out[0m [36m230.5K installs[0m
+[38;5;102m└ https://skills.sh/mattpocock/skills/zoom-out[0m
+
+[38;5;145mcoreyhaines31/marketingskills@marketing-psychology[0m [36m152.6K installs[0m
+[38;5;102m└ https://skills.sh/coreyhaines31/marketingskills/marketing-psychology[0m
+
+[38;5;145mcoreyhaines31/marketingskills@marketing-ideas[0m [36m136.8K installs[0m
+[38;5;102m└ https://skills.sh/coreyhaines31/marketingskills/marketing-ideas[0m
+
+[38;5;145manthropics/skills@canvas-design[0m [36m113.9K installs[0m
+[38;5;102m└ https://skills.sh/anthropics/skills/canvas-design[0m
+
+[38;5;145manthropics/skills@doc-coauthoring[0m [36m88.4K installs[0m
+[38;5;102m└ https://skills.sh/anthropics/skills/doc-coauthoring[0m
+
+[38;5;145mk-dense-ai/scientific-agent-skills@scientific-brainstorming[0m [36m2K installs[0m
+[38;5;102m└ https://skills.sh/k-dense-ai/scientific-agent-skills/scientific-brainstorming[0m
+
+[38;5;145mdavila7/claude-code-templates@scientific-brainstorming[0m [36m1.1K installs[0m
+[38;5;102m└ https://skills.sh/davila7/claude-code-templates/scientific-brainstorming[0m
+
+[38;5;145mjaechang-hits/sciagent-skills@scientific-brainstorming[0m [36m77 installs[0m
+[38;5;102m└ https://skills.sh/jaechang-hits/sciagent-skills/scientific-brainstorming[0m
+
+[38;5;145mleonchaox/qinyan-academic-skills@scientific-brainstorming[0m [36m67 installs[0m
+[38;5;102m└ https://skills.sh/leonchaox/qinyan-academic-skills/scientific-brainstorming[0m
+
+[38;5;145msmithery.ai@scientific-brainstorming[0m [36m58 installs[0m
+[38;5;102m└ https://skills.sh/smithery.ai/scientific-brainstorming[0m
+
+[38;5;145mkjgarza/marketplace-claude@scientific-brainstorming[0m [36m54 installs[0m
+[38;5;102m└ https://skills.sh/kjgarza/marketplace-claude/scientific-brainstorming[0m
+
+[38;5;145movachiever/droid-tings@scientific-brainstorming[0m [36m45 installs[0m
+[38;5;102m└ https://skills.sh/ovachiever/droid-tings/scientific-brainstorming[0m
+
